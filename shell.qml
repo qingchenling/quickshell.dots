@@ -15,14 +15,20 @@ PanelWindow {
         right: 5
         left: 5
         top: 5
-        bottom: 5
     }
 
     implicitHeight: 34
     color: "transparent"
 
     // left
-    WorkspacesManager {}
+    Row {
+        anchors.left: parent.left
+        height: parent.height
+        spacing: 10
+
+        StartMenu {}
+        WorkspacesManager {}
+    }
 
     // right
     Row {
