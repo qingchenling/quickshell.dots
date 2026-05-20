@@ -5,9 +5,10 @@ import QtQuick
 
 PanelWindow {
     id: appLauncher
-    width: 400
-    height: 500
+    implicitWidth: 400
+    implicitHeight: 500
     color: "transparent"
+    visible: false
 
     IpcHandler {
         target: "AppLauncher"

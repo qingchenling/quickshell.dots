@@ -1,4 +1,4 @@
-//@ pragma UseQApplication
+import Quickshell.Services.UPower
 import Quickshell
 import QtQuick
 
@@ -38,6 +38,9 @@ PanelWindow {
 
         Tray {}
         Clock {}
+        Text {
+            text: UPower.displayDevice.percentage*100
+        }
     }
 }
 

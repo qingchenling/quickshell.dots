@@ -8,7 +8,7 @@ Rectangle {
     HoverHandler { id: startAreaHover }
 
     height: parent.height
-    width: startAreaHover.hovered ? startMenu.width : itemSize
+    width: startAreaHover.hovered ? startRow.width : itemSize
     radius: parent.height/2
     clip: true
     color: "#333333"
@@ -21,7 +21,7 @@ Rectangle {
     }
 
     Row {
-        id: startMenu
+        id: startRow
         spacing: 5
         anchors.verticalCenter: parent
 
@@ -34,6 +34,11 @@ Rectangle {
             Text {
                 anchors.centerIn: parent
                 text: "01"
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: { startMenu.visible = true }
             }
         }
 
