@@ -1,23 +1,18 @@
 import Quickshell
 import QtQuick
 
-Rectangle {
+import "../components"
+import "../"
+
+MD3Card {
     height: parent.height
     width: 80
-    radius: 20
-    color: "#2D2D3D"
 
-    SystemClock {
-        id: clock
-    }
+    SystemClock { id: clock }
 
-    Text {
+    MD3CardText {
         anchors.centerIn: parent
         text: Qt.formatDateTime(clock.date, "hh:mm")
-        color: "#ffffff"
-        font {
-            bold: true
-            family: "Xiaolai"
-        }
+        font.bold: true
     }
 }

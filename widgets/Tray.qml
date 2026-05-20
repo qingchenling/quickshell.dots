@@ -2,11 +2,11 @@ import Quickshell.Services.SystemTray
 import Quickshell.Widgets
 import QtQuick
 
-Rectangle {
+import "../components"
+
+MD3Card {
     height: parent.height
     width: trayRow.implicitWidth + 20
-    color: "#2D2D3D"
-    radius: 20
 
     Row {
         id: trayRow
