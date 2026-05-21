@@ -2,6 +2,7 @@ import QtQuick.Effects
 import QtQuick
 
 Rectangle {
+    property alias innerText: innerText 
     property bool is_active: false
     property bool is_hover: false
     property string text: ""
@@ -23,17 +24,8 @@ Rectangle {
     Component.onCompleted: { opacity = 1 }
     Component.onDestruction: { opacity = 0 }
 
-    MultiEffect {
-        anchors.fill: parent
-        source: parent
-
-        shadowEnabled: true
-        shadowBlur: 0.8
-        shadowOpacity: 0.25
-        shadowVerticalOffset: 2
-    }
-
     Text {
+        id: innerText
         anchors.centerIn: parent
         font.family: "XiaoLai"
         color: is_active ? Colors.on_primary : Colors.on_surface

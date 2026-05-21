@@ -9,10 +9,6 @@ MD3Card {
     width: 80
 
     SystemClock { id: clock }
-
-    MD3CardText {
-        anchors.centerIn: parent
-        text: Qt.formatDateTime(clock.date, "hh:mm")
-        font.bold: true
-    }
+    text: Qt.formatDateTime(clock.date, "hh : mm")
+    innerText.font.bold: true
 }
