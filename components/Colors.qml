@@ -3,21 +3,21 @@ import QtQml
 import QtQuick
 
 QtObject {
-    readonly property color primary: "#99ccf9"
-    readonly property color on_primary: "#003351"
+    readonly property color primary: "#87d1eb"
+    readonly property color on_primary: "#003543"
 
-    readonly property color secondary: "#b8c8da"
-    readonly property color on_secondary: "#23323f"
+    readonly property color secondary: "#b3cad4"
+    readonly property color on_secondary: "#1e333b"
 
-    readonly property color primary_container: "#064b72"
-    readonly property color on_primary_container: "#cce5ff"
+    readonly property color primary_container: "#004e60"
+    readonly property color on_primary_container: "#b6ebff"
 
-    readonly property color surface: "#101418"
-    readonly property color on_surface: "#e0e2e8"
+    readonly property color surface: "#0f1416"
+    readonly property color on_surface: "#dee3e6"
 
-    readonly property color surface_variant: "#42474e"
-    readonly property color on_surface_variant: "#c2c7ce"
+    readonly property color surface_variant: "#40484c"
+    readonly property color on_surface_variant: "#bfc8cc"
 
-    readonly property color outline: "#8c9198"
-    readonly property color outline_variant: "#42474e"
+    readonly property color outline: "#8a9296"
+    readonly property color outline_variant: "#40484c"
 }

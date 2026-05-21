@@ -1,0 +1,69 @@
+import QtQuick
+import Quickshell.Widgets
+
+Rectangle {
+    property string icon: ""
+    property string name: ""
+    property string content: ""
+    signal clicked
+
+    color: Colors.surface_variant
+    radius: 36
+    border.width: 1
+    border.color: Colors.outline_variant
+
+    Behavior on opacity {
+        NumberAnimation {
+            duration: 300
+            easing.type: Easing.InOutQuad
+        }
+    }
+
+    Column {
+        anchors.fill: parent
+        anchors.topMargin: 10
+        spacing: 7
+
+        Row {
+            spacing: 12
+            anchors.left: parent.left
+            anchors.leftMargin: 30
+            IconImage {
+                width: 24
+                height: 24
+                source: icon
+            }
+            Text {
+                anchors.verticalCenter: parent.verticalCenter
+                font.family: "XiaoLai"
+                color: Colors.on_surface_variant
+                text: name
+            }
+        }
+
+        Rectangle {
+            width: parent.width-40
+            height: parent.height-40
+            radius: 20
+            anchors.horizontalCenter: parent.horizontalCenter
+            color: Colors.secondary
+            
+            Text {
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.leftMargin: 17
+                anchors.topMargin: 10
+                font.family: "XiaoLai"
+                color: Colors.on_secondary
+                text: content
+            }
+        }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        onClicked: {
+            parent.clicked()
+        }
+    }
+}

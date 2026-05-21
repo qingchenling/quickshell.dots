@@ -1,4 +1,3 @@
-import QtQuick.Effects
 import QtQuick
 
 Rectangle {

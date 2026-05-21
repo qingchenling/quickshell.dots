@@ -5,27 +5,30 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Notifications
 
+import "components"
+
 PanelWindow {
-    anchors.top: true
+    ListModel { id: notificationModel }
+
     anchors.right: true
-    implicitWidth: 320
-    visible: false
-    color: "transparent"
+    anchors.top: true
     margins.top: 20
-    margins.right: 20
+    margins.right: 30
+    width: 400
+    height: notificationColumn.height
+    mask: Region { item: notificationColumn }
+    color: "transparent"
 
     NotificationServer {
         id: notificationServer
 
         onNotification: function(notification) {
-            notification.tracked = false
+            notification.tracked = true
             notificationModel.append({
                 notification: notification
             })
         }
     }
-
-    ListModel { id: notificationModel }
 
     Column {
         id: notificationColumn
@@ -34,24 +37,15 @@ PanelWindow {
 
         Repeater {
             model: notificationModel
-
-            delegate: Rectangle {
+            delegate: NotifyCard {
                 width: notificationColumn.width
-                height: 100
-                radius: 18
+                height: 120
 
-                Row {
-                    anchors.fill: parent
-                    Text {
-                        text: notification.appName
-                    }
-                    Text {
-                        text: notification.summary
-                    }
-                    Text {
-                        text: notification.body
-                    }
-                }
+                icon: Quickshell.iconPath(notification.appIcon)
+                name: notification.appName + " - " + notification.summary
+                content: notification.body
+
+                onClicked: notification.actions[0].invoke()
             }
         }
     }
