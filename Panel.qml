@@ -38,9 +38,6 @@ PanelWindow {
 
         Tray {}
         Clock {}
-        Text {
-            text: UPower.displayDevice.percentage*100
-        }
     }
 }
 
