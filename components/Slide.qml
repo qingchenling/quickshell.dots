@@ -7,6 +7,7 @@ Item {
     property real minn: 0
     property real maxn: 100
     property real value: 50
+    property real delta: 0
     property string icon: ""
     
     IconImage {
@@ -83,16 +84,15 @@ Item {
         WheelHandler {
             acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
             onWheel: (event) => {
-                if(event.angleDelta.y>0) slide.value+=1
-                else slide.value-=1
-                slide.value=Math.max(slide.minn, Math.min(slide.value, slide.maxn))
+                if(event.angleDelta.y>0) slide.delta=1
+                else slide.delta=-1
             }
         }
 
         TapHandler {
             onTapped: (event) => {
                 let ratio=event.position.x/parent.width
-                slide.value=Math.round(ratio*(slide.maxn-slide.minn))
+                slide.delta=Math.round(ratio*(slide.maxn-slide.minn))-slide.value
             }
         }
     }

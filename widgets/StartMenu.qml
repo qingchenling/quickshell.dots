@@ -1,3 +1,5 @@
+import Quickshell.Services.Pipewire
+import Quickshell.Wayland
 import Quickshell.Widgets
 import Quickshell.Io
 import Quickshell
@@ -11,7 +13,7 @@ Item {
     width: startMenu.width
 
     PopupWindow {
-        property bool is_show: true
+        property bool is_show: false
 
         id: startMenu
         anchor.window: panel
@@ -133,14 +135,14 @@ Item {
                     anchors.topMargin: 20
                     columns: 3
                     spacing: 15
-                    Repeater {
-                        model: 6
-                        delegate: Rectangle {
-                            width: (optionCard.width-4*15)/3
-                            height: (optionCard.height-15-40)/2
-                            radius: 10
-                            color: Colors.secondary_container
-                        }
+                    
+                    PluginsButtom {
+                        id: startButtom_idleInhibitor
+                        width: (optionCard.width-4*15)/3
+                        height: (optionCard.height-15-40)/2
+
+                        icon_on: "../../assets/idle_inhibitor_on.svg"
+                        icon_off: "../../assets/idle_inhibitor_off.svg"
                     }
                 }
             }
@@ -154,12 +156,32 @@ Item {
                     width: startMenu.width-20
                     height: 10
                     icon: "../assets/headphone.svg"
+
+                    value: Math.round(Pipewire.defaultAudioSink.audio.volume*100)
+                    onDeltaChanged: {
+                        let v = Pipewire.defaultAudioSink.audio.volume + delta/100
+                        Pipewire.defaultAudioSink.audio.volume = Math.max(minn/100, Math.min(v, maxn/100))
+                        delta = 0
+                    }
+
+                    PwObjectTracker {
+                        objects: [ Pipewire.defaultAudioSink ]
+                    }
                 }
                 Slide {
                     anchors.horizontalCenter: startMenu.horizontalCenter
                     width: startMenu.width-20
                     height: 10
                     icon: "../assets/brightness.svg"
+
+                    onDeltaChanged: {
+                        let v = value + delta
+                        value = Math.max(minn, Math.min(v, maxn))
+                        delta = 0
+
+                    }
+
+                    Process { id: setBrightness }
                 }
             }
         }

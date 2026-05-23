@@ -9,9 +9,9 @@ ShellRoot {
     NotificationManager {}
 
     IdleMonitor {
-        timeout: 180
+        timeout: 30
         onIsIdleChanged: {
-            if(isIdle) lockScreen.running = true
+            if(isIdle&&!startButtom_idleInhibitor.active) lockScreen.running = true
         }
     }
     Process {

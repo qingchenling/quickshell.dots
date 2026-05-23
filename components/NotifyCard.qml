@@ -8,7 +8,7 @@ Rectangle {
     signal clicked
 
     color: Colors.surface_variant
-    radius: 36
+    radius: 30
     border.width: 1
     border.color: Colors.outline_variant
 
@@ -44,18 +44,20 @@ Rectangle {
         Rectangle {
             width: parent.width-40
             height: parent.height-40
-            radius: 20
+            radius: 15
             anchors.horizontalCenter: parent.horizontalCenter
             color: Colors.secondary
             
             Text {
                 anchors.left: parent.left
                 anchors.top: parent.top
-                anchors.leftMargin: 17
+                anchors.leftMargin: 13
                 anchors.topMargin: 10
                 font.family: "XiaoLai"
                 color: Colors.on_secondary
                 text: content
+                wrapMode: Text.WordWrap
+                width: parent.width-13
             }
         }
     }

@@ -1,4 +1,4 @@
-import Quickshell.Services.UPower
+import Quickshell.Services.Pipewire
 import Quickshell
 import QtQuick
 
@@ -29,6 +29,8 @@ PanelWindow {
         StartMenu {}
         WorkspacesManager {}
     }
+
+    DyIsland {}
 
     // right
     Row {
