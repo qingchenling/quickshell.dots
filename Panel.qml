@@ -31,6 +31,7 @@ PanelWindow {
     }
 
     DyIsland {}
+    KeyTips {}
 
     // right
     Row {

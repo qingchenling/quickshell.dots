@@ -144,6 +144,14 @@ Item {
                         icon_on: "../../assets/idle_inhibitor_on.svg"
                         icon_off: "../../assets/idle_inhibitor_off.svg"
                     }
+                    PluginsButtom {
+                        id: startButtom_notifications
+                        width: (optionCard.width-4*15)/3
+                        height: (optionCard.height-15-40)/2
+
+                        icon_on: "../../assets/notifications_off.svg"
+                        icon_off: "../../assets/notifications_on.svg"
+                    }
                 }
             }
 
@@ -179,6 +187,8 @@ Item {
                         value = Math.max(minn, Math.min(v, maxn))
                         delta = 0
 
+                        setBrightness.command = ["brightnessctl", "set", value+"%"]
+                        setBrightness.running = true
                     }
 
                     Process { id: setBrightness }

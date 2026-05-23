@@ -8,8 +8,6 @@ import Quickshell.Services.Notifications
 import "components"
 
 PanelWindow {
-    ListModel { id: notificationModel }
-
     anchors.right: true
     anchors.top: true
     margins.top: 20
@@ -18,15 +16,12 @@ PanelWindow {
     height: notificationColumn.height
     mask: Region { item: notificationColumn }
     color: "transparent"
+    visible: true
 
     NotificationServer {
         id: notificationServer
-
-        onNotification: function(notification) {
-            notification.tracked = true
-            notificationModel.append({
-                notification: notification
-            })
+        onNotification: (event) => {
+            event.tracked = true
         }
     }
 
@@ -36,16 +31,20 @@ PanelWindow {
         spacing: 12
 
         Repeater {
-            model: notificationModel
+            model: notificationServer.trackedNotifications
             delegate: NotifyCard {
                 width: notificationColumn.width
                 height: 120
 
-                icon: Quickshell.iconPath(notification.appIcon)
-                name: notification.appName + " - " + notification.summary
-                content: notification.body
+                icon: modelData.appIcon
+                name: modelData.appName + " - " + modelData.summary
+                content: modelData.body
 
-                onClicked: notification.actions[0].invoke()
+                onClicked: {
+                    if(modelData.actions.length)
+                        modelData.actions[0].invoke()
+                    closed = true
+                }
             }
         }
     }

@@ -1,10 +1,12 @@
 import QtQuick
 import Quickshell.Widgets
+import Quickshell
 
 Rectangle {
     property string icon: ""
     property string name: ""
     property string content: ""
+    property bool closed: false
     signal clicked
 
     color: Colors.surface_variant
@@ -14,10 +16,17 @@ Rectangle {
 
     Behavior on opacity {
         NumberAnimation {
-            duration: 300
+            duration: 100
             easing.type: Easing.InOutQuad
         }
     }
+    Behavior on height {
+        NumberAnimation {
+            duration: 100
+            easing.type: Easing.InOutQuad
+        }
+    }
+
 
     Column {
         anchors.fill: parent
@@ -31,11 +40,12 @@ Rectangle {
             IconImage {
                 width: 24
                 height: 24
-                source: icon
+                source: icon==="" ? "" : Quickshell.iconPath(icon)
             }
             Text {
                 anchors.verticalCenter: parent.verticalCenter
                 font.family: "XiaoLai"
+                font.bold: true
                 color: Colors.on_surface_variant
                 text: name
             }
@@ -66,6 +76,21 @@ Rectangle {
         anchors.fill: parent
         onClicked: {
             parent.clicked()
+        }
+    }
+
+    onClosedChanged: {
+        height = 0
+        opacity = 0
+        destoryTimer.start()
+    }
+
+    Timer {
+        id: destoryTimer
+        interval: 100
+        repeat: false
+        onTriggered: {
+            modelData.dismiss()
         }
     }
 }
