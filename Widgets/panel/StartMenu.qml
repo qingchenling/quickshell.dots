@@ -5,8 +5,10 @@ import Quickshell.Io
 import Quickshell
 import QtQuick
 
-import "../components/startPlugins/"
-import "../components/"
+import qs.Services
+import qs.Components
+import qs.Themes
+import "start"
 
 Item {
     height: parent.height
@@ -21,11 +23,13 @@ Item {
         color: "transparent"
         
         HoverHandler { id: startHover }
-        height: is_show ? 350 : panel.height
-        width: is_show ? 300 : (startHover.hovered ? startRow.width+10 : panel.height)
+        implicitHeight: is_show ? 350 : panel.height
+        implicitWidth: is_show ? 300 : (startHover.hovered ? startRow.width+10 : panel.height)
 
-        MD3Card {
+        Rectangle {
             anchors.fill: parent
+            radius: 30
+            color: Colors.back("surface")
 
             Row {
                 property int len: startMenu.is_show ? 40 : 32
@@ -38,7 +42,10 @@ Item {
                 spacing: 5
 
                 Behavior on height {
-                    NumberAnimation { duration: 100 }
+                    NumberAnimation {
+                        duration: 100
+                        easing.type: Easing.OutCubic
+                    }
                 }
                 Behavior on anchors.leftMargin {
                     NumberAnimation { duration: 100 }
@@ -60,7 +67,7 @@ Item {
                     
                     Text {
                         anchors.centerIn: parent
-                        color: Colors.on_surface
+                        color: Colors.text("surface")
                         text: "01"
                     }
 
@@ -76,8 +83,7 @@ Item {
                         {svg: "reboot.svg", command: ["reboot"]},
                         {svg: "logout.svg", command: ["uwsm", "stop"]}
                     ]
-                    delegate: Rectangle {
-                        HoverHandler { id: startItem }
+                    delegate: Button {
                         Process { id: startItemProc; command: modelData.command }
 
                         anchors.top: startRow.top
@@ -85,7 +91,10 @@ Item {
                         height: startRow.len-6
                         width: startRow.len-6
                         radius: height/2
-                        color: startItem.hovered ? Colors.primary : Colors.surface_variant
+                        icon: Qt.resolvedUrl("../../assets/"+modelData.svg)
+                        backColor: "surface_variant"
+                        activeColor: "primary"
+                        active: hovered
 
                         Behavior on color {
                             ColorAnimation {
@@ -100,13 +109,6 @@ Item {
                             NumberAnimation { duration: 100 }
                         }
                         
-                        IconImage {
-                            anchors.centerIn: parent
-                            width: parent.height-4
-                            height: parent.width-4
-                            source: Qt.resolvedUrl("../assets/"+modelData.svg)
-                        }
-
                         MouseArea {
                             anchors.fill: parent
                             onClicked: { startItemProc.running = true } 
@@ -127,7 +129,7 @@ Item {
                 width: parent.width-20
                 height: 150
                 radius: 20
-                color: Colors.surface_variant
+                color: Colors.back("surface_variant")
                 
                 Grid {
                     anchors.fill: parent
@@ -136,21 +138,35 @@ Item {
                     columns: 3
                     spacing: 15
                     
-                    PluginsButtom {
+                    Button {
                         id: startButtom_idleInhibitor
                         width: (optionCard.width-4*15)/3
                         height: (optionCard.height-15-40)/2
 
-                        icon_on: "../../assets/idle_inhibitor_on.svg"
-                        icon_off: "../../assets/idle_inhibitor_off.svg"
+                        backColor: "secondary_container"
+                        activeColor: "primary"
+                        activeIcon: Qt.resolvedUrl("../../assets/idle_inhibitor_on.svg")
+                        icon: Qt.resolvedUrl("../../assets/idle_inhibitor_off.svg")
+                        onClicked: active = !active
                     }
-                    PluginsButtom {
+                    Button {
                         id: startButtom_notifications
                         width: (optionCard.width-4*15)/3
                         height: (optionCard.height-15-40)/2
-
-                        icon_on: "../../assets/notifications_off.svg"
-                        icon_off: "../../assets/notifications_on.svg"
+                        
+                        backColor: "secondary_container"
+                        activeColor: "primary"
+                        activeIcon: Qt.resolvedUrl("../../assets/notifications_off.svg")
+                        icon: Qt.resolvedUrl("../../assets/notifications_on.svg")
+                        onClicked: active = !active
+                    }
+                    Button {
+                        width: (optionCard.width-4*15)/3
+                        height: (optionCard.height-15-40)/2
+                        
+                        backColor: "secondary_container"
+                        activeColor: "primary"
+                        onClicked: BackgroundService.changeImage("")
                     }
                 }
             }
@@ -196,13 +212,13 @@ Item {
             }
         }
 
-        Behavior on width {
+        Behavior on implicitWidth {
             NumberAnimation {
                 duration: 200
                 easing.type: Easing.OutCubic
             }
         }
-        Behavior on height {
+        Behavior on implicitHeight {
             NumberAnimation {
                 duration: 200
                 easing.type: Easing.OutCubic

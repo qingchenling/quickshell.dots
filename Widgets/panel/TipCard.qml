@@ -2,7 +2,7 @@ import Quickshell.Widgets
 import Quickshell
 import QtQuick
 
-import "../"
+import qs.Components
 
 Rectangle {
     property bool type: false
@@ -37,7 +37,10 @@ Rectangle {
         color: Colors.on_primary
     }
 
-    onTypeChanged: showAnim.start()
+    onTypeChanged: {
+        showAnim.stop()
+        showAnim.start()
+    }
     SequentialAnimation {
         id: showAnim
         NumberAnimation {

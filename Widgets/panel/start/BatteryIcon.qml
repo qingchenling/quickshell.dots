@@ -1,7 +1,7 @@
 import Quickshell.Services.UPower
 import QtQuick
 
-import "../"
+import qs.Themes
 
 Rectangle {
     property bool charged: UPower.displayDevice.state === UPowerDeviceState.Charging
@@ -17,7 +17,7 @@ Rectangle {
         width: 2
         height: 6
         radius: 1
-        color: Colors.outline
+        color: Colors.back("outline")
     }
     Rectangle {
         anchors.verticalCenter: parent.verticalCenter
@@ -27,7 +27,7 @@ Rectangle {
         radius: 3
         color: "transparent"
         border.width: 2
-        border.color: Colors.outline
+        border.color: Colors.back("outline")
 
         Rectangle {
             anchors.left: parent.left
@@ -36,7 +36,7 @@ Rectangle {
             width: (parent.width-6) * UPower.displayDevice.percentage
             height: parent.height-6
             radius: 2
-            color: charged ? Colors.primary : Colors.secondary
+            color: Colors.back(charged ? "primary" : "secondary")
         }
     }
 }

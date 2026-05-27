@@ -1,7 +1,7 @@
 import Quickshell
 import QtQuick
 
-import "components/"
+import qs.Components
 
 PopupWindow {
     anchor.window: panel

@@ -1,18 +1,19 @@
 import QtQuick
 import Quickshell.Hyprland
 
-import "../components"
+import qs.Components
 
 Row {
     spacing: 8
     height: parent.height
     Repeater {
         model: Hyprland.workspaces
-        delegate: MD3Card {
+        delegate: Button {
             width: 65
             height: parent.height
-            is_active: modelData.focused
+            active: modelData.focused
             text: modelData.id
+            activeColor: "primary"
             onClicked: modelData.activate()
         }
     }

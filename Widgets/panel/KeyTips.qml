@@ -2,7 +2,7 @@ import Quickshell.Io
 import Quickshell
 import QtQuick
 
-import "../components/"
+import qs.Components
 
 PopupWindow {
     anchor.window: panel
@@ -11,13 +11,12 @@ PopupWindow {
     visible: true
     color: "transparent"
     width: 200
+    mask: Region {}
 
-    id: fuck
-    property int qwq: 0
     TipCard {
         id: capslock
-        icon_on: Qt.resolvedUrl("../assets/CAPSLOCK_on.svg")
-        icon_off: Qt.resolvedUrl("../assets/CAPSLOCK_off.svg")
+        icon_on: Qt.resolvedUrl("../../assets/CAPSLOCK_on.svg")
+        icon_off: Qt.resolvedUrl("../../assets/CAPSLOCK_off.svg")
         text_on: "CAPS ON"
         text_off: "CAPS OFF"
 
@@ -30,8 +29,8 @@ PopupWindow {
 
     TipCard {
         id: numlock
-        icon_on: Qt.resolvedUrl("../assets/NUMLOCK_on.svg")
-        icon_off: Qt.resolvedUrl("../assets/NUMLOCK_off.svg")
+        icon_on: Qt.resolvedUrl("../../assets/NUMLOCK_on.svg")
+        icon_off: Qt.resolvedUrl("../../assets/NUMLOCK_off.svg")
         text_on: "NUM ON"
         text_off: "NUM OFF"
 

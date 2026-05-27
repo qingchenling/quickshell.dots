@@ -2,6 +2,8 @@ import Quickshell.Widgets
 import QtQuick.Effects
 import QtQuick
 
+import qs.Themes
+
 Item {
     id: slide
     property real minn: 0
@@ -10,20 +12,15 @@ Item {
     property real delta: 0
     property string icon: ""
     
-    IconImage {
+    IconSvg {
         id: slideIcon
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.leftMargin: 25
         width: 24
         height: 24
-        source: Qt.resolvedUrl(parent.icon)
-        //MultiEffect {
-        //    anchors.fill: parent
-        //    source: parent
-        //    colorization: 1.0
-        //    colorizationColor: "white"
-        //}
+        color: Colors.text("surface")
+        path: Qt.resolvedUrl(parent.icon)
     }
 
     Rectangle {
@@ -35,14 +32,14 @@ Item {
         width: 220
         height: slideHover.hovered ? 20 : 3
         radius: 30
-        color: Colors.secondary_container
+        color: Colors.back("secondary_container")
 
         Rectangle {
             anchors.left: parent.left
             height: parent.height
             width: 220 * (slide.value-slide.minn) / (slide.maxn-slide.minn)
             radius: 30
-            color: Colors.primary
+            color: Colors.back("primary")
 
             Behavior on width {
                 NumberAnimation {

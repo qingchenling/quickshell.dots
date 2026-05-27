@@ -1,8 +1,8 @@
-import Quickshell.Services.Pipewire
 import Quickshell
+import Quickshell.Services.UPower
 import QtQuick
 
-import "widgets"
+import "panel"
 
 PanelWindow {
     id: panel
@@ -41,6 +41,9 @@ PanelWindow {
 
         Tray {}
         Clock {}
+        Text {
+            text: UPower.displayDevice.percentage*100
+        }
     }
 }
 

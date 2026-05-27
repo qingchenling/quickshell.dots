@@ -1,11 +1,14 @@
 import QtQuick
 
+import qs.Themes
+
 Rectangle {
     property alias inputField: input
+    property string backColor: "surface"
 
-    anchors.fill: parent
     radius: 36
-    color: Colors.surface_variant
+    color: Colors.back(backColor)
+
     TextInput {
         id: input
         focus: true
@@ -15,7 +18,7 @@ Rectangle {
             topMargin: 10
             bottomMargin: 0
         }
-        color: Colors.on_surface_variant
+        color: Colors.text(backColor)
         font.family: "XiaoLai"
         font.pointSize: 15
     }
