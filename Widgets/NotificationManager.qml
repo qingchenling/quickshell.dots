@@ -6,7 +6,7 @@ import Quickshell
 import Quickshell.Services.Notifications
 
 import qs.Components
-import "notifiy"
+import "notify"
 
 PanelWindow {
     anchors.right: true

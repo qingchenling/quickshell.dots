@@ -5,7 +5,6 @@ import QtQuick
 
 import qs.Components
 import qs.Themes
-import "appLauncher"
 import "../assets/js/pinyin-match.js" as PinyinMatch
 
 PanelWindow {

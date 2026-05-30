@@ -4,9 +4,12 @@ import QtQuick
 import qs.Components
 
 Button {
-    height: panel.height
+    height: parent.height
     width: 130
     visible: UPower.onBattery
-    text: Math.floor(UPower.displayDevice.percentage*100) + "% | " +
-            Math.floor(UPower.displayDevice.timeToEmpty/60) + " mins"
+    opacity: visible ? 1 : 0
+    text: Math.floor(UPower.displayDevice.percentage * 100) + "% | " +
+            Math.floor(UPower.displayDevice.timeToEmpty / 60) + " mins"
+
+    Behavior on opacity { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
 }

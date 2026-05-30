@@ -13,7 +13,7 @@ PopupWindow {
     width: 200
     mask: Region {}
 
-   KeyTips_card { 
+    FadeTip {
         id: capslock
         activeIcon: Qt.resolvedUrl("../../assets/CAPSLOCK_on.svg")
         icon: Qt.resolvedUrl("../../assets/CAPSLOCK_off.svg")
@@ -27,7 +27,7 @@ PopupWindow {
         }
     }
 
-    KeyTips_card {
+    FadeTip {
         id: numlock
         activeIcon: Qt.resolvedUrl("../../assets/NUMLOCK_on.svg")
         icon: Qt.resolvedUrl("../../assets/NUMLOCK_off.svg")

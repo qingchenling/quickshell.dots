@@ -17,14 +17,20 @@ Rectangle {
     
         Repeater {
             model: SystemTray.items
-            delegate: Item {
-                width: 17
-                height: 17
+            delegate: Rectangle {
+                width: 24; height: 24
+                radius: 8
+                color: trayHover.hovered ? Colors.surface_container_highest : "transparent"
+                Behavior on color { ColorAnimation { duration: 150 } }
 
                 IconImage {
-                    anchors.fill: parent
+                    anchors.centerIn: parent
+                    width: 17; height: 17
                     source: modelData.icon
                 }
+
+                HoverHandler { id: trayHover }
+
                 MouseArea {
                     anchors.fill: parent
                     acceptedButtons: Qt.LeftButton | Qt.RightButton

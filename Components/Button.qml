@@ -46,9 +46,11 @@ Rectangle {
         }
     }
 
-    TapHandler { onTapped: root.clicked() }
+    TapHandler { id: tapHandler; onTapped: root.clicked() }
     HoverHandler { id: hoverHandler }
 
+    scale: tapHandler.pressed ? 0.92 : 1.0
+    Behavior on scale { NumberAnimation { duration: 100; easing.type: Easing.OutCubic } }
     Behavior on color { ColorAnimation { duration: 200 } }
     Behavior on opacity { NumberAnimation { duration: 200 } }
 }

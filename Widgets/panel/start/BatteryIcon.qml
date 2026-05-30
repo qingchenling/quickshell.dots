@@ -33,10 +33,13 @@ Rectangle {
             anchors.left: parent.left
             anchors.leftMargin: 3
             anchors.verticalCenter: parent.verticalCenter
-            width: (parent.width-6) * UPower.displayDevice.percentage
-            height: parent.height-6
+            width: (parent.width - 6) * UPower.displayDevice.percentage
+            height: parent.height - 6
             radius: 2
             color: charged ? Colors.primary : Colors.secondary
+
+            Behavior on width { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
+            Behavior on color { ColorAnimation { duration: 200 } }
         }
     }
 }

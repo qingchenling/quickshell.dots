@@ -2,7 +2,6 @@ import Quickshell.Widgets
 import QtQuick
 
 import qs.Themes
-import "../"
 
 Rectangle {
     id: bottom

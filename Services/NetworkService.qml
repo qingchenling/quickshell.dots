@@ -98,6 +98,26 @@ QtObject {
         root.connectedNetwork = null
     }
 
+    /// Return networks sorted: connected first, then by signal strength descending.
+    /// This is a stateless helper — callers must poll when backend state changes.
+    function getSortedNetworks() {
+        if (!wifiDevice || !wifiDevice.networks) return []
+        let arr = []
+        let nets = wifiDevice.networks.values
+        for (let i = 0; i < nets.length; i++) {
+            if (nets[i]) arr.push(nets[i])
+        }
+        arr.sort((a, b) => {
+            if (!a || !b) return 0
+            if (a.connected && !b.connected) return -1
+            if (!a.connected && b.connected) return 1
+            let sa = a.signalStrength !== undefined ? a.signalStrength : -999
+            let sb = b.signalStrength !== undefined ? b.signalStrength : -999
+            return sb - sa
+        })
+        return arr
+    }
+
     // ═══════════════════════════════════════════════════════════
     // Actions
     // ═══════════════════════════════════════════════════════════
