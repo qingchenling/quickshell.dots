@@ -2,6 +2,7 @@ import Quickshell
 import QtQuick
 
 import qs.Components
+import qs.Themes
 
 PopupWindow {
     anchor.window: panel

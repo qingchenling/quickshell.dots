@@ -1,6 +1,7 @@
 import Quickshell
 import QtQuick
 
+import qs.Themes
 import "components/"
 
 FloatingWindow {

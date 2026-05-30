@@ -9,7 +9,7 @@ Button {
     height: parent.height
     width: 80
     color: "transparent"
-    backColor: Colors.text("primary")
+    fgColor: Colors.on_primary
 
     SystemClock { id: clock }
     text: Qt.formatDateTime(clock.date, "hh : mm")
@@ -18,7 +18,7 @@ Button {
     // background
     ClippingRectangle {
         anchors.fill: parent
-        color: Colors.back("secondary")
+        color: Colors.secondary
         radius: 30
         z: -1
 
@@ -32,7 +32,7 @@ Button {
                     width: 12
                     height: 100
                     rotation: 25
-                    color: Colors.back("primary")
+                    color: Colors.primary
                 }
             }
 

@@ -7,7 +7,7 @@ import qs.Themes
 Rectangle {
     height: parent.height
     width: trayRow.implicitWidth + 20
-    color: Colors.back("surface")
+    color: Colors.surface
     radius: 36
 
     Row {

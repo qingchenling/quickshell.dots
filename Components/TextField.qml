@@ -4,10 +4,13 @@ import qs.Themes
 
 Rectangle {
     property alias inputField: input
-    property string backColor: "surface"
+    /// Background color — set to a Colors.xxx property.
+    property color bgColor: Colors.surface
+    /// Text color.
+    property color fgColor: Colors.on_surface
 
     radius: 36
-    color: Colors.back(backColor)
+    color: bgColor
 
     TextInput {
         id: input
@@ -18,7 +21,7 @@ Rectangle {
             topMargin: 10
             bottomMargin: 0
         }
-        color: Colors.text(backColor)
+        color: fgColor
         font.family: "XiaoLai"
         font.pointSize: 15
     }

@@ -10,29 +10,38 @@ Rectangle {
     property string activeText: text
     property string icon: ""
     property string activeIcon: icon
-    property string backColor: "surface"
-    property string activeColor: backColor
+
+    /// Background color (normal state).  Set to a Colors.xxx property.
+    property color bgColor: Colors.surface
+    /// Text / icon color (normal state).
+    property color fgColor: Colors.on_surface
+    /// Background color when active.
+    property color activeBgColor: bgColor
+    /// Text / icon color when active.
+    property color activeFgColor: fgColor
+
     signal clicked
 
     id: root
-    color: Colors.back(active ? activeColor : backColor)
+    color: active ? activeBgColor : bgColor
     radius: 36
 
-    Flow {
+    Row {
         anchors.centerIn: parent
+        spacing: 10
 
         IconSvg {
-            width: icon==="" ? 0 : 24
+            width: icon === "" ? 0 : 24
             height: width
             path: root.active ? root.activeIcon : root.icon
-            color: Colors.text(root.active ? root.activeColor : root.backColor)
+            color: root.active ? root.activeFgColor : root.fgColor
         }
         Text {
             id: content
             verticalAlignment: Text.AlignVCenter
             height: 24
             font.family: "XiaoLai"
-            color: Colors.text(root.active ? root.activeColor : root.backColor)
+            color: root.active ? root.activeFgColor : root.fgColor
             text: root.active ? root.activeText : root.text
         }
     }

@@ -2,6 +2,7 @@ import QtQuick
 import Quickshell.Hyprland
 
 import qs.Components
+import qs.Themes
 
 Row {
     spacing: 8
@@ -13,7 +14,8 @@ Row {
             height: parent.height
             active: modelData.focused
             text: modelData.id
-            activeColor: "primary"
+            activeBgColor: Colors.primary
+            activeFgColor: Colors.on_primary
             onClicked: modelData.activate()
         }
     }

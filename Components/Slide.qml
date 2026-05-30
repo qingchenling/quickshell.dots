@@ -19,7 +19,7 @@ Item {
         anchors.leftMargin: 25
         width: 24
         height: 24
-        color: Colors.text("surface")
+        color: Colors.on_surface
         path: Qt.resolvedUrl(parent.icon)
     }
 
@@ -32,14 +32,14 @@ Item {
         width: 220
         height: slideHover.hovered ? 20 : 3
         radius: 30
-        color: Colors.back("secondary_container")
+        color: Colors.secondary_container
 
         Rectangle {
             anchors.left: parent.left
             height: parent.height
             width: 220 * (slide.value-slide.minn) / (slide.maxn-slide.minn)
             radius: 30
-            color: Colors.back("primary")
+            color: Colors.primary
 
             Behavior on width {
                 NumberAnimation {

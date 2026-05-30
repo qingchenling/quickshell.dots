@@ -17,7 +17,7 @@ Rectangle {
         width: 2
         height: 6
         radius: 1
-        color: Colors.back("outline")
+        color: Colors.outline
     }
     Rectangle {
         anchors.verticalCenter: parent.verticalCenter
@@ -27,7 +27,7 @@ Rectangle {
         radius: 3
         color: "transparent"
         border.width: 2
-        border.color: Colors.back("outline")
+        border.color: Colors.outline
 
         Rectangle {
             anchors.left: parent.left
@@ -36,7 +36,7 @@ Rectangle {
             width: (parent.width-6) * UPower.displayDevice.percentage
             height: parent.height-6
             radius: 2
-            color: Colors.back(charged ? "primary" : "secondary")
+            color: charged ? Colors.primary : Colors.secondary
         }
     }
 }

@@ -3,6 +3,8 @@ import Quickshell.Services.UPower
 import QtQuick
 
 import "panel"
+import qs.Services
+import Quickshell.Networking
 
 PanelWindow {
     id: panel
@@ -39,10 +41,12 @@ PanelWindow {
         height: parent.height
         spacing: 10
 
+        BatteryInfo {}
+        NetworkApplet {}
         Tray {}
         Clock {}
         Text {
-            text: UPower.displayDevice.percentage*100
+            text: Networking.devices.count
         }
     }
 }

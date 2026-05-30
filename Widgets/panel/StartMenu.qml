@@ -29,7 +29,7 @@ Item {
         Rectangle {
             anchors.fill: parent
             radius: 30
-            color: Colors.back("surface")
+            color: Colors.surface
 
             Row {
                 property int len: startMenu.is_show ? 40 : 32
@@ -67,7 +67,7 @@ Item {
                     
                     Text {
                         anchors.centerIn: parent
-                        color: Colors.text("surface")
+                        color: Colors.on_surface
                         text: "01"
                     }
 
@@ -92,8 +92,10 @@ Item {
                         width: startRow.len-6
                         radius: height/2
                         icon: Qt.resolvedUrl("../../assets/"+modelData.svg)
-                        backColor: "surface_variant"
-                        activeColor: "primary"
+                        bgColor: Colors.surface_variant
+                        fgColor: Colors.on_surface_variant
+                        activeBgColor: Colors.primary
+                        activeFgColor: Colors.on_primary
                         active: hovered
 
                         Behavior on color {
@@ -129,7 +131,7 @@ Item {
                 width: parent.width-20
                 height: 150
                 radius: 20
-                color: Colors.back("surface_variant")
+                color: Colors.surface_variant
                 
                 Grid {
                     anchors.fill: parent
@@ -143,8 +145,10 @@ Item {
                         width: (optionCard.width-4*15)/3
                         height: (optionCard.height-15-40)/2
 
-                        backColor: "secondary_container"
-                        activeColor: "primary"
+                        bgColor: Colors.secondary_container
+                        fgColor: Colors.on_secondary_container
+                        activeBgColor: Colors.primary
+                        activeFgColor: Colors.on_primary
                         activeIcon: Qt.resolvedUrl("../../assets/idle_inhibitor_on.svg")
                         icon: Qt.resolvedUrl("../../assets/idle_inhibitor_off.svg")
                         onClicked: active = !active
@@ -154,8 +158,10 @@ Item {
                         width: (optionCard.width-4*15)/3
                         height: (optionCard.height-15-40)/2
                         
-                        backColor: "secondary_container"
-                        activeColor: "primary"
+                        bgColor: Colors.secondary_container
+                        fgColor: Colors.on_secondary_container
+                        activeBgColor: Colors.primary
+                        activeFgColor: Colors.on_primary
                         activeIcon: Qt.resolvedUrl("../../assets/notifications_off.svg")
                         icon: Qt.resolvedUrl("../../assets/notifications_on.svg")
                         onClicked: active = !active
@@ -164,8 +170,10 @@ Item {
                         width: (optionCard.width-4*15)/3
                         height: (optionCard.height-15-40)/2
                         
-                        backColor: "secondary_container"
-                        activeColor: "primary"
+                        bgColor: Colors.secondary_container
+                        fgColor: Colors.on_secondary_container
+                        activeBgColor: Colors.primary
+                        activeFgColor: Colors.on_primary
                         onClicked: BackgroundService.changeImage("")
                     }
                 }

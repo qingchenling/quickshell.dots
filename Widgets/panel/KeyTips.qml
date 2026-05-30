@@ -13,31 +13,31 @@ PopupWindow {
     width: 200
     mask: Region {}
 
-    TipCard {
+   KeyTips_card { 
         id: capslock
-        icon_on: Qt.resolvedUrl("../../assets/CAPSLOCK_on.svg")
-        icon_off: Qt.resolvedUrl("../../assets/CAPSLOCK_off.svg")
-        text_on: "CAPS ON"
-        text_off: "CAPS OFF"
+        activeIcon: Qt.resolvedUrl("../../assets/CAPSLOCK_on.svg")
+        icon: Qt.resolvedUrl("../../assets/CAPSLOCK_off.svg")
+        activeText: "CAPS ON"
+        text: "CAPS OFF"
 
         FileView {
             id: capslockFile
             path: "/sys/class/leds/input4::capslock/brightness"
-            onLoaded: capslock.type = text()==="1\n"
+            onLoaded: capslock.active = text()==="1\n"
         }
     }
 
-    TipCard {
+    KeyTips_card {
         id: numlock
-        icon_on: Qt.resolvedUrl("../../assets/NUMLOCK_on.svg")
-        icon_off: Qt.resolvedUrl("../../assets/NUMLOCK_off.svg")
-        text_on: "NUM ON"
-        text_off: "NUM OFF"
+        activeIcon: Qt.resolvedUrl("../../assets/NUMLOCK_on.svg")
+        icon: Qt.resolvedUrl("../../assets/NUMLOCK_off.svg")
+        activeText: "NUM ON"
+        text: "NUM OFF"
 
         FileView {
             id: numlockFile
             path: "/sys/class/leds/input4::numlock/brightness"
-            onLoaded: numlock.type = text()==="1\n"
+            onLoaded: numlock.active = text()==="1\n"
         }
     }
 

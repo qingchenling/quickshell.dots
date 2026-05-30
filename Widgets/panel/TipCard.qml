@@ -3,6 +3,7 @@ import Quickshell
 import QtQuick
 
 import qs.Components
+import qs.Themes
 
 Rectangle {
     property bool type: false

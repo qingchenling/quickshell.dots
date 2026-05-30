@@ -6,6 +6,7 @@ import QtQuick
 import qs.Components
 import qs.Themes
 import "appLauncher"
+import "../assets/js/pinyin-match.js" as PinyinMatch
 
 PanelWindow {
     property string searchText: ""
@@ -36,8 +37,8 @@ PanelWindow {
         id: card
         anchors.fill: parent
         radius: 36
-        color: Colors.back("surface")
-        
+        color: Colors.surface
+
         ListView { // 应用列表
             id: appList
             anchors.fill: parent
@@ -48,8 +49,8 @@ PanelWindow {
             delegate: Row {
                 property bool shown: {
                     if(root.searchText==="") return true
-                    if(modelData.name.includes(root.searchText)) return true
-                    return false
+                    if(modelData.name.toLowerCase().includes(root.searchText)) return true
+                    return PinyinMatch.PinyinMatch.match(modelData.name, root.searchText)
                 }
 
                 id: appItem
@@ -72,7 +73,7 @@ PanelWindow {
                 Text {
                     text: modelData.name
                     anchors.verticalCenter: parent.verticalCenter
-                    color: Colors.text("surface")
+                    color: Colors.on_surface
                 }
 
                 TapHandler {
@@ -97,7 +98,7 @@ PanelWindow {
             height: 3
             radius: 3
             opacity: y!==0
-            color: Colors.back("outline")
+            color: Colors.outline
 
             Behavior on y { NumberAnimation {
                 duration: 100
@@ -114,9 +115,10 @@ PanelWindow {
             TextField {
                 id: input
                 height: 40
-                backColor: "surface_variant"
+                bgColor: Colors.surface_variant
+                fgColor: Colors.on_surface_variant
                 width: root.width-40
-                inputField.onTextChanged: root.searchText = inputField.text
+                inputField.onTextChanged: root.searchText = inputField.text.toLowerCase()
             }
         }
     }

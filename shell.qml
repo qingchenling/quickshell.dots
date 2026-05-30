@@ -6,7 +6,6 @@ import qs.Widgets
 ShellRoot {
     Panel {}
     AppLauncher {}
-    //NotificationManager {}
-    //SettingMgr {}
+    NotificationManager {}
     Background {}
 }

@@ -5,8 +5,8 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Notifications
 
-import "../components"
-import "../widgets/notifiy"
+import qs.Components
+import "notifiy"
 
 PanelWindow {
     anchors.right: true
