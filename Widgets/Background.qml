@@ -48,8 +48,19 @@ PanelWindow {
         property vector2d resolution: Qt.vector2d(width, height)
 
         anchors.fill: parent
-        fragmentShader: Qt.resolvedUrl("../assets/shaders/particle.frag.qsb")
+        fragmentShader: root.currentShaderUrl
         visible: false
+    }
+
+    property string currentShaderUrl: Qt.resolvedUrl("../assets/shaders/particle.frag.qsb")
+
+    function pickShader() {
+        let s = SettingsService.shader
+        if (!s || s === "random") {
+            root.currentShaderUrl = BackgroundService.randomShader()
+        } else {
+            root.currentShaderUrl = Qt.resolvedUrl("../assets/shaders/" + s)
+        }
     }
 
     Image {
@@ -85,6 +96,7 @@ PanelWindow {
 
             nextImage.source = file
             shader.rand = Math.random()*1000
+            root.pickShader()
 
             matugenProc.exec({
                 command: [

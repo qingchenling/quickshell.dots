@@ -218,6 +218,36 @@ Item {
                     Process { id: setBrightness }
                 }
             }
+
+            // ── Settings gear button (bottom-right, visible when expanded) ──
+            Rectangle {
+                id: settingsButton
+                anchors.right: parent.right
+                anchors.rightMargin: 16
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 16
+                width: 36; height: 36; radius: 18
+                color: settingsHover.hovered ? Colors.primary_container : Colors.secondary_container
+                opacity: startMenu.is_show ? 1 : 0
+
+                IconSvg {
+                    anchors.centerIn: parent
+                    width: 20; height: 20
+                    path: Qt.resolvedUrl("../../assets/settings.svg")
+                    color: settingsHover.hovered ? Colors.on_primary_container : Colors.on_secondary_container
+                }
+
+                HoverHandler { id: settingsHover }
+                TapHandler {
+                    id: settingsTap
+                    onTapped: panel.toggleSettings()
+                }
+
+                scale: settingsTap.pressed ? 0.9 : 1.0
+                Behavior on scale { NumberAnimation { duration: 100; easing.type: Easing.OutCubic } }
+                Behavior on color { ColorAnimation { duration: 200; easing.type: Easing.OutCubic } }
+                Behavior on opacity { NumberAnimation { duration: 150 } }
+            }
         }
 
         Behavior on implicitWidth {

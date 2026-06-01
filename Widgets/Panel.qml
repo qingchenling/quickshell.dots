@@ -3,6 +3,7 @@ import Quickshell.Services.UPower
 import QtQuick
 
 import "panel"
+import "Settings"
 import qs.Services
 import Quickshell.Networking
 
@@ -21,6 +22,8 @@ PanelWindow {
 
     implicitHeight: 34
     color: "transparent"
+
+    function toggleSettings() { settingsCenter.toggle() }
 
     // left
     Row {
@@ -46,8 +49,11 @@ PanelWindow {
         Tray {}
         Clock {}
         Text {
-            text: Networking.devices.count
+            text: Networking.devices.values.length
         }
     }
+
+    // ── Settings center popup ──
+    SettingsCenter { id: settingsCenter }
 }
 

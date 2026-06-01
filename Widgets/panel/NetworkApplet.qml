@@ -16,6 +16,7 @@ Item {
     property string passwordInput: ""
     property bool showPassword: false
     property var networksModel: []
+    property bool popupShown: false
 
     readonly property var svc: NetworkService
     onSvcChanged: refreshNetworks()
@@ -65,8 +66,29 @@ Item {
     }
 
     function togglePopup() {
-        if (wifiPopup.visible) { closeAnim.start() }
-        else { refreshNetworks(); openAnim.start() }
+        // Guard against re-entrant calls while transitioning
+        if (_toggling) return
+        _toggling = true
+        togglingTimer.start()
+
+        if (popupShown) {
+            wifiPopup.visible = false
+            popupShown = false
+            cleanupPopupState()
+        } else {
+            popupShown = true
+            refreshNetworks()
+            popupCard.opacity = 0
+            popupCard.slideY = -30
+            openAnim.start()
+        }
+    }
+
+    property bool _toggling: false
+    Timer {
+        id: togglingTimer
+        interval: 50; repeat: false
+        onTriggered: _toggling = false
     }
 
     function cleanupPopupState() {
@@ -127,22 +149,14 @@ Item {
         Behavior on width { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
     }
 
-    // ── Popup animations ──
+    // ── Popup open animation ──
     SequentialAnimation {
         id: openAnim
         ScriptAction { script: { wifiPopup.visible = true; popupCard.forceActiveFocus() } }
         ParallelAnimation {
-            NumberAnimation { target: popupCard; property: "opacity"; from: 0; to: 1; duration: 250; easing.type: Easing.OutCubic }
-            NumberAnimation { target: popupCard; property: "slideY"; from: -30; to: 0; duration: 300; easing.type: Easing.OutCubic }
+            NumberAnimation { target: popupCard; property: "opacity"; to: 1; duration: 250; easing.type: Easing.OutCubic }
+            NumberAnimation { target: popupCard; property: "slideY"; to: 0; duration: 300; easing.type: Easing.OutCubic }
         }
-    }
-    SequentialAnimation {
-        id: closeAnim
-        ParallelAnimation {
-            NumberAnimation { target: popupCard; property: "opacity"; from: 1; to: 0; duration: 200; easing.type: Easing.InCubic }
-            NumberAnimation { target: popupCard; property: "slideY"; from: 0; to: -20; duration: 200; easing.type: Easing.InCubic }
-        }
-        ScriptAction { script: { wifiPopup.visible = false; cleanupPopupState() } }
     }
 
     // ── WiFi picker popup ──
@@ -153,7 +167,6 @@ Item {
         anchor.rect.y: panel.height + 6
         visible: false
         color: "transparent"
-        grabFocus: true
         implicitWidth: 340
         implicitHeight: Math.min(520, popupContent.implicitHeight + 20)
         mask: Region { item: popupCard }
@@ -314,13 +327,14 @@ Item {
 
                 // Networks list
                 Item {
+                    id: networksContainer
                     width: parent.width
-                    height: Math.min(listMaxHeight, listInnerHeight + 12) + (noNetworks ? 40 : 0)
                     visible: svc && svc.wifiEnabled
 
                     readonly property bool noNetworks: networksModel.length === 0 && svc && svc.wifiEnabled
                     readonly property real listMaxHeight: 320
                     readonly property real listInnerHeight: networksList.height
+                    height: Math.min(listMaxHeight, listInnerHeight + 12) + (noNetworks ? 40 : 0)
 
                     Flickable {
                         id: networkFlickable
@@ -371,9 +385,9 @@ Item {
                     Text {
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.top: networkFlickable.bottom; anchors.topMargin: 20
-                        text: noNetworks ? "Searching for networks..." : ""
+                        text: networksContainer.noNetworks ? "Searching for networks..." : ""
                         font.family: "XiaoLai"; font.pixelSize: 13
-                        color: Colors.on_surface_variant; visible: noNetworks
+                        color: Colors.on_surface_variant; visible: networksContainer.noNetworks
                     }
                 }
 

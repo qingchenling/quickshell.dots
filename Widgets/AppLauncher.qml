@@ -55,7 +55,7 @@ PanelWindow {
                 id: appItem
                 leftPadding: 20
                 height: shown ? 48 : -5
-                width: parent.width
+                width: appList.width
                 opacity: shown ? 1 : 0
                 spacing: 10
 

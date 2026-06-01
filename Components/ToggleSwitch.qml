@@ -40,9 +40,6 @@ Rectangle {
 
     TapHandler {
         id: tapHandler
-        onTapped: {
-            root.checked = !root.checked
-            root.toggled()
-        }
+        onTapped: root.toggled()
     }
 }

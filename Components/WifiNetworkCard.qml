@@ -154,19 +154,17 @@ Item {
         }
 
         // ── Bottom: inline password (same card, animates open/close) ──
+        // NOTE: do NOT add Behavior on height/opacity here — the card's
+        // Behavior on height (above) is the single source of truth. When
+        // passwordSection height jumps between 0 and 52, the card height
+        // animates smoothly, and passwordSection content naturally follows
+        // because it is clipped inside the card.
         Item {
             id: passwordSection
             anchors.top: topSection.bottom
             width: parent.width
             height: root.selected && root.showPassword ? 52 : 0
-            opacity: root.selected && root.showPassword ? 1 : 0
-
-            Behavior on height {
-                NumberAnimation { duration: 280; easing.type: Easing.OutCubic }
-            }
-            Behavior on opacity {
-                NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
-            }
+            clip: true
 
             // Subtle divider
             Rectangle {

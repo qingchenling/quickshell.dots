@@ -16,12 +16,14 @@ QtObject {
     }
 
     function randomShader() {
+        if (shaders.count === 0) return ""
         let index = Math.floor(Math.random()*shaders.count)
-        return shaders.get(index, "fileUrl")
+        return shaders.get(index, "fileUrl") || ""
     }
 
     function randomImage() {
+        if (wallpapers.count === 0) return ""
         let index = Math.floor(Math.random()*wallpapers.count)
-        return wallpapers.get(index, "fileUrl")
+        return wallpapers.get(index, "fileUrl") || ""
     }
 }
