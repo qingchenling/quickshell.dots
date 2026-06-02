@@ -1,4 +1,5 @@
 import Quickshell
+import Quickshell.Io
 import Quickshell.Networking
 import QtQuick
 
@@ -17,6 +18,9 @@ Item {
     property bool showPassword: false
     property var networksModel: []
     property bool popupShown: false
+
+    // ── Connection failure tracking ──
+    property var pendingNetwork: null
 
     readonly property var svc: NetworkService
     onSvcChanged: refreshNetworks()
@@ -54,8 +58,11 @@ Item {
 
     function submitPassword() {
         if (!selectedNetwork || passwordInput.trim() === "") return
+        pendingNetwork = selectedNetwork
+        console.log("WiFi: submitting password for", selectedNetwork.name || "Unknown")
         svc.connectWithPassword(selectedNetwork, passwordInput)
-        showPassword = false; passwordInput = ""; selectedNetwork = null
+        showPassword = false; passwordInput = ""
+        connectTimer.restart()
         scheduleRefresh()
     }
 
@@ -93,13 +100,79 @@ Item {
 
     function cleanupPopupState() {
         selectedNetwork = null; showPassword = false; passwordInput = ""
+        // keep pendingNetwork + connectTimer so failure notification still fires
     }
 
     Timer { id: refreshTimer; interval: 2000; repeat: false; onTriggered: refreshNetworks() }
 
+    // ── Connection timeout: detect failure after password submit ──
+    Timer {
+        id: connectTimer
+        interval: 8000
+        repeat: false
+        onTriggered: {
+            if (!pendingNetwork) return
+            if (pendingNetwork.connected) {
+                pendingNetwork = null
+            } else {
+                _handleConnectFailed()
+            }
+        }
+    }
+
+    function _handleConnectFailed() {
+        if (!pendingNetwork) return
+        var net = pendingNetwork
+        var netName = net.name || "Unknown"
+        pendingNetwork = null
+        console.log("WiFi: connection failed for", netName)
+        // Re-show password for secure networks
+        if (svc.isSecure(net)) {
+            selectedNetwork = net
+            passwordInput = ""
+            showPassword = true
+        }
+        _notifyConnFailed(netName)
+    }
+
+    function _handleConnectSuccess() {
+        if (!pendingNetwork) return
+        console.log("WiFi: connection succeeded")
+        pendingNetwork = null
+        connectTimer.stop()
+        selectedNetwork = null
+        showPassword = false
+        passwordInput = ""
+    }
+
+    function _notifyConnFailed(networkName) {
+        console.log("WiFi: sending notification for", networkName)
+        connFailedProc.command = [
+            "notify-send",
+            "-i", "network-wireless-offline-symbolic",
+            "-u", "normal",
+            "-t", "5000",
+            "Wi-Fi Connection Failed",
+            "Failed to connect to " + networkName + ". Please check your password."
+        ]
+        connFailedProc.running = true
+    }
+
+    Process {
+        id: connFailedProc; running: false
+        onExited: function(exitCode) {
+            console.log("WiFi: notify-send exited code=" + exitCode)
+        }
+    }
+
     Connections {
         target: svc
-        function onNetworkStateChanged() { refreshTimer.restart() }
+        function onNetworkStateChanged() {
+            refreshTimer.restart()
+            if (pendingNetwork && pendingNetwork.connected) {
+                _handleConnectSuccess()
+            }
+        }
     }
 
     // ── Panel button ──
@@ -170,6 +243,7 @@ Item {
         implicitWidth: 340
         implicitHeight: Math.min(520, popupContent.implicitHeight + 20)
         mask: Region { item: popupCard }
+        grabFocus: true
 
         Rectangle {
             id: popupCard

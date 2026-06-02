@@ -5,6 +5,7 @@ import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.Notifications
 
+import qs.Services
 import "notify"
 
 // ═══════════════════════════════════════════════════════════
@@ -34,6 +35,8 @@ PanelWindow {
     NotificationServer {
         id: notificationServer
         onNotification: function (event) {
+            // Drop silently when Do Not Disturb is active
+            if (NotificationService.dnd) return
             event.tracked = true
         }
     }

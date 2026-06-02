@@ -230,18 +230,19 @@ Item {
 
             // ── Image attachment ──
             Rectangle {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 120
-                visible: root.notification
+                readonly property bool _hasImage: root.notification
                     && root.notification.image
                     && root.notification.image !== ""
+                Layout.fillWidth: true
+                Layout.preferredHeight: _hasImage ? 120 : 0
+                visible: _hasImage
                 radius: 8
                 color: Colors.surface_container
                 clip: true
 
                 Image {
                     anchors.fill: parent
-                    source: visible ? root.notification.image : ""
+                    source: root.notification ? root.notification.image : ""
                     fillMode: Image.PreserveAspectCrop
                 }
             }

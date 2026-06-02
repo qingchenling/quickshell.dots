@@ -1,11 +1,8 @@
 import Quickshell
-import Quickshell.Services.UPower
 import QtQuick
 
 import "panel"
 import "Settings"
-import qs.Services
-import Quickshell.Networking
 
 PanelWindow {
     id: panel
@@ -35,7 +32,6 @@ PanelWindow {
         WorkspacesManager {}
     }
 
-    DyIsland {}
     KeyTips {}
 
     // right
@@ -48,9 +44,6 @@ PanelWindow {
         NetworkApplet {}
         Tray {}
         Clock {}
-        Text {
-            text: Networking.devices.values.length
-        }
     }
 
     // ── Settings center popup ──

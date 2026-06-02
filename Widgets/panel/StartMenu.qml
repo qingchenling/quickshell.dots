@@ -41,36 +41,23 @@ Item {
                 id: startRow
                 spacing: 5
 
-                Behavior on height {
-                    NumberAnimation {
-                        duration: 100
-                        easing.type: Easing.OutCubic
-                    }
-                }
-                Behavior on anchors.leftMargin {
-                    NumberAnimation { duration: 100 }
-                }
+                // Animate top/left margins on the container only —
+                // per-item size Behaviors removed to avoid layout thrash.
+                Behavior on anchors.topMargin  { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
+                Behavior on anchors.leftMargin { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
 
                 Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
-                    height: startRow.len
-                    width: startRow.len
-                    radius: height/2
-                    color: "transparent"
+                    height: startRow.len; width: startRow.len
+                    radius: height/2; color: "transparent"
 
-                    Behavior on height {
-                        NumberAnimation { duration: 100 }
-                    }
-                    Behavior on width {
-                        NumberAnimation { duration: 100 }
-                    }
-                    
+                    Behavior on height { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
+                    Behavior on width  { NumberAnimation { duration: 150; easing.type: Easing.OutCubic } }
+
                     Text {
                         anchors.centerIn: parent
-                        color: Colors.on_surface
-                        text: "01"
+                        color: Colors.on_surface; text: "01"
                     }
-
                     MouseArea {
                         anchors.fill: parent
                         onClicked: { startMenu.is_show = !startMenu.is_show }
@@ -88,8 +75,7 @@ Item {
 
                         anchors.top: startRow.top
                         anchors.topMargin: 2
-                        height: startRow.len-6
-                        width: startRow.len-6
+                        height: startRow.len-6; width: startRow.len-6
                         radius: height/2
                         icon: Qt.resolvedUrl("../../assets/"+modelData.svg)
                         bgColor: Colors.surface_variant
@@ -98,22 +84,13 @@ Item {
                         activeFgColor: Colors.on_primary
                         active: hovered
 
-                        Behavior on color {
-                            ColorAnimation {
-                                duration: 300
-                                easing.type: Easing.OutCubic
-                            }
-                        }
-                        Behavior on height {
-                            NumberAnimation { duration: 100 }
-                        }
-                        Behavior on width {
-                            NumberAnimation { duration: 100 }
-                        }
-                        
+                        // Color-only transition — size changes are instant
+                        // to avoid multiple simultaneous layout animations.
+                        Behavior on color { ColorAnimation { duration: 300; easing.type: Easing.OutCubic } }
+
                         MouseArea {
                             anchors.fill: parent
-                            onClicked: { startItemProc.running = true } 
+                            onClicked: { startItemProc.running = true }
                         }
                     }
                 }
@@ -157,14 +134,16 @@ Item {
                         id: startButtom_notifications
                         width: (optionCard.width-4*15)/3
                         height: (optionCard.height-15-40)/2
-                        
+
                         bgColor: Colors.secondary_container
                         fgColor: Colors.on_secondary_container
                         activeBgColor: Colors.primary
                         activeFgColor: Colors.on_primary
                         activeIcon: Qt.resolvedUrl("../../assets/notifications_off.svg")
                         icon: Qt.resolvedUrl("../../assets/notifications_on.svg")
-                        onClicked: active = !active
+                        // Bound to DnD service — active = Do Not Disturb ON
+                        active: NotificationService.dnd
+                        onClicked: NotificationService.dnd = !NotificationService.dnd
                     }
                     Button {
                         width: (optionCard.width-4*15)/3

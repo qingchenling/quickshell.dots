@@ -1,4 +1,5 @@
 import Quickshell
+import Quickshell.Io
 import Quickshell.Networking
 import QtQuick
 
@@ -18,6 +19,9 @@ Item {
     property bool showPassword: false
     property var selectedNetwork: null
     property var networksModel: []
+
+    // ── Connection failure tracking ──
+    property var pendingNetwork: null
 
     readonly property var svc: NetworkService
 
@@ -45,12 +49,79 @@ Item {
     }
     function submitPassword() {
         if (!selectedNetwork || passwordInput.trim() === "") return
+        pendingNetwork = selectedNetwork
         svc.connectWithPassword(selectedNetwork, passwordInput)
-        showPassword = false; passwordInput = ""; selectedNetwork = null; scheduleRefresh()
+        showPassword = false; passwordInput = ""
+        connectTimer.restart()
+        scheduleRefresh()
     }
 
     Timer { id: refreshTimer; interval: 1500; repeat: false; onTriggered: refreshNetworks() }
-    Connections { target: svc; function onNetworkStateChanged() { refreshTimer.restart() } }
+
+    // ── Connection timeout: detect failure after password submit ──
+    Timer {
+        id: connectTimer
+        interval: 8000
+        repeat: false
+        onTriggered: {
+            if (!pendingNetwork) return
+            if (pendingNetwork.connected) {
+                pendingNetwork = null
+            } else {
+                _handleConnectFailed()
+            }
+        }
+    }
+
+    function _handleConnectFailed() {
+        if (!pendingNetwork) return
+        var net = pendingNetwork
+        var netName = net.name || "Unknown"
+        pendingNetwork = null
+        if (svc.isSecure(net)) {
+            selectedNetwork = net
+            showPassword = true
+            passwordInput = ""
+        }
+        _notifyConnFailed(netName)
+    }
+
+    function _handleConnectSuccess() {
+        if (!pendingNetwork) return
+        pendingNetwork = null
+        connectTimer.stop()
+        selectedNetwork = null
+        showPassword = false
+        passwordInput = ""
+    }
+
+    function _notifyConnFailed(networkName) {
+        connFailedProc.command = [
+            "dbus-send", "--session", "--type=method_call",
+            "--dest=org.freedesktop.Notifications",
+            "/org/freedesktop/Notifications",
+            "org.freedesktop.Notifications.Notify",
+            "string:quickshell", "uint32:0",
+            "string:network-wireless-offline-symbolic",
+            "string:Wi-Fi Connection Failed",
+            "string:Failed to connect to " + networkName + ". Please check your password.",
+            "array:string:", "dict:string:variant:", "int32:5000"
+        ]
+        connFailedProc.running = true
+    }
+
+    Process { id: connFailedProc; running: false }
+
+    Connections {
+        target: svc
+        function onNetworkStateChanged() {
+            refreshTimer.restart()
+            if (pendingNetwork && pendingNetwork.connected) {
+                _handleConnectSuccess()
+            }
+        }
+    }
+
     Component.onCompleted: refreshNetworks()
 
     Flickable {

@@ -5,7 +5,7 @@ import qs.Widgets
 
 ShellRoot {
     Panel {}
-    AppLauncher {}
+    DyIsland {}
     NotificationManager {}
     Background {}
 }
